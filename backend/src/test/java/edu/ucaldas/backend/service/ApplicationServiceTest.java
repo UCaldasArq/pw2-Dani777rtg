@@ -35,7 +35,7 @@ class ApplicationServiceTest {
     @Test
     void getApplicationById_ShouldReturnApplication_WhenExists() {
         Long appId = 1L;
-        Application app = Application.builder().id(appId).name("YouTube").build();
+        Application app = Application.builder().id(appId).name("YouTube").category("Video").build();
         ApplicationDTO appDTO = ApplicationDTO.builder().id(appId).name("YouTube").build();
 
         when(applicationRepository.findById(appId)).thenReturn(Optional.of(app));

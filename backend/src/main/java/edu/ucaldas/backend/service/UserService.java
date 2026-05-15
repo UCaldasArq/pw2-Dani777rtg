@@ -39,10 +39,15 @@ public class UserService {
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        
-        existingUser.setUsername(userDTO.getUsername());
-        existingUser.setEmail(userDTO.getEmail());
-        
+
+        existingUser.setFirstName(trim(userDTO.getFirstName()));
+        existingUser.setLastName(trim(userDTO.getLastName()));
+        existingUser.setDocument(trim(userDTO.getDocument()));
+        existingUser.setPhoneNumber(trim(userDTO.getPhoneNumber()));
+        existingUser.setEmail(trim(userDTO.getEmail()));
+        existingUser.setCity(blankToNull(trim(userDTO.getCity())));
+        existingUser.setBirthDate(userDTO.getBirthDate());
+
         User updatedUser = userRepository.save(existingUser);
         return userMapper.toDTO(updatedUser);
     }
@@ -52,5 +57,13 @@ public class UserService {
             throw new ResourceNotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
+    }
+
+    private static String trim(String s) {
+        return s == null ? null : s.trim();
+    }
+
+    private static String blankToNull(String s) {
+        return s == null || s.isEmpty() ? null : s;
     }
 }

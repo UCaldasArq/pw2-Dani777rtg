@@ -2,7 +2,6 @@ package edu.ucaldas.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usage_records")
@@ -25,17 +24,24 @@ public class UsageRecord {
     @JoinColumn(name = "application_id", nullable = false)
     private Application application;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(nullable = false)
+    private Integer days;
 
-    @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    @Column(nullable = false)
+    private Integer hours;
+
+    @Column(nullable = false)
+    private Integer minutes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "usage_period", nullable = false, length = 20)
+    private UsagePeriod usagePeriod;
 
     @Transient
-    public Long getDurationInMinutes() {
-        if (startTime != null && endTime != null) {
-            return java.time.Duration.between(startTime, endTime).toMinutes();
-        }
-        return 0L;
+    public long getTotalMinutes() {
+        int d = days != null ? days : 0;
+        int h = hours != null ? hours : 0;
+        int m = minutes != null ? minutes : 0;
+        return (long) d * 24 * 60 + (long) h * 60 + m;
     }
 }

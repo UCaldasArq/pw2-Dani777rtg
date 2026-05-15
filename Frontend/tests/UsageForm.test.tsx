@@ -3,7 +3,14 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import UsageForm from '../src/components/UsageForm';
 
 const users = [
-  { id: 'user-1', firstName: 'Ana', lastName: 'Perez', document: '123', phoneNumber: '3001234567' },
+  {
+    id: 'user-1',
+    firstName: 'Ana',
+    lastName: 'Perez',
+    document: '123',
+    phoneNumber: '3001234567',
+    email: 'ana@example.com',
+  },
 ];
 
 const applications = [

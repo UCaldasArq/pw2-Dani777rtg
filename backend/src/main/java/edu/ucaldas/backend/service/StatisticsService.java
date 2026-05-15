@@ -23,8 +23,8 @@ public class StatisticsService {
 
         return usageRecordService.getUsageRecordsByUserId(userId).stream()
                 .collect(Collectors.groupingBy(
-                        UsageRecordDTO::getApplicationName,
-                        Collectors.summingLong(UsageRecordDTO::getDurationInMinutes)
+                        UsageRecordDTO::getApplication,
+                        Collectors.summingLong(UsageRecordDTO::getTotalMinutes)
                 ));
     }
 }

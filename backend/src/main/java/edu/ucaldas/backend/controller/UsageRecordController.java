@@ -33,4 +33,10 @@ public class UsageRecordController {
     public ResponseEntity<UsageRecordDTO> registerUsage(@Valid @RequestBody UsageRegistrationDTO registrationDTO) {
         return new ResponseEntity<>(usageRecordService.registerUsage(registrationDTO), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsageRecord(@PathVariable Long id) {
+        usageRecordService.deleteUsageRecord(id);
+        return ResponseEntity.noContent().build();
+    }
 }

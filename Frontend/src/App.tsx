@@ -8,9 +8,9 @@ import DashboardPage from './pages/DashboardPage';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
+      <div className="flex min-h-screen flex-col bg-canvas">
         <Navbar />
-        <main className="container mx-auto py-8">
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/users" element={<UsersPage />} />

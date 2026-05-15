@@ -12,6 +12,7 @@ import edu.ucaldas.backend.repository.UsageRecordRepository;
 import edu.ucaldas.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,26 +36,37 @@ public class UsageRecordService {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User not found with id: " + userId);
         }
-        return usageRecordRepository.findByUserId(userId).stream()
+        return usageRecordRepository.findByUser_Id(userId).stream()
                 .map(usageRecordMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public UsageRecordDTO registerUsage(UsageRegistrationDTO registrationDTO) {
         User user = userRepository.findById(registrationDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + registrationDTO.getUserId()));
-        
-        Application application = applicationRepository.findById(registrationDTO.getApplicationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Application not found with id: " + registrationDTO.getApplicationId()));
+
+        String appName = registrationDTO.getApplication().trim();
+        Application application = applicationRepository.findByName(appName)
+                .orElseThrow(() -> new ResourceNotFoundException("Application not found with name: " + appName));
 
         UsageRecord record = UsageRecord.builder()
                 .user(user)
                 .application(application)
-                .startTime(registrationDTO.getStartTime())
-                .endTime(registrationDTO.getEndTime())
+                .days(registrationDTO.getDays())
+                .hours(registrationDTO.getHours())
+                .minutes(registrationDTO.getMinutes())
+                .usagePeriod(registrationDTO.getUsagePeriod())
                 .build();
 
         UsageRecord savedRecord = usageRecordRepository.save(record);
         return usageRecordMapper.toDTO(savedRecord);
+    }
+
+    public void deleteUsageRecord(Long id) {
+        if (!usageRecordRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usage record not found with id: " + id);
+        }
+        usageRecordRepository.deleteById(id);
     }
 }

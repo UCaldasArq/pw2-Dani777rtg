@@ -4,6 +4,10 @@ export interface User {
   lastName: string;
   document: string;
   phoneNumber: string;
+  email: string;
+  city?: string;
+  /** ISO date string YYYY-MM-DD from API */
+  birthDate?: string;
 }
 
 export type UsagePeriod = 'Morning' | 'Afternoon' | 'Night';

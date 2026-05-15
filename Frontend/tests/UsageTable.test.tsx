@@ -11,7 +11,14 @@ describe('UsageTable', () => {
           {
             id: 'record-1',
             userId: 'user-1',
-            user: { id: 'user-1', firstName: 'Ana', lastName: 'Perez', document: '123', phoneNumber: '3001234567' },
+            user: {
+              id: 'user-1',
+              firstName: 'Ana',
+              lastName: 'Perez',
+              document: '123',
+              phoneNumber: '3001234567',
+              email: 'ana@example.com',
+            },
             application: 'YouTube',
             days: 1,
             hours: 3,

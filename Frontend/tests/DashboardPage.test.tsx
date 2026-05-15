@@ -46,11 +46,13 @@ describe('DashboardPage', () => {
 
     expect(screen.getByText(/Loading dashboard/i)).toBeInTheDocument();
 
-    expect(await screen.findByText('Usage Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('Total Records')).toBeInTheDocument();
-    expect(screen.getByText('Most Used App')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /usage dashboard/i })).toBeInTheDocument();
+    expect(screen.getByText(/total records/i)).toBeInTheDocument();
+    expect(screen.getByText(/most used app/i)).toBeInTheDocument();
     expect(screen.getByText('TikTok')).toBeInTheDocument();
-    expect(screen.getByText('4.0')).toBeInTheDocument();
+    // Total time: 2h30 + 4h = 6.5 h; top app TikTok remains 4.0 h in subtitle
+    expect(screen.getByText('6.5')).toBeInTheDocument();
+    expect(screen.getByText(/Top app: TikTok \(4\.0 h\)/)).toBeInTheDocument();
     expect(screen.getByText('Application chart records: 2')).toBeInTheDocument();
     expect(screen.getByText('Usage period chart records: 2')).toBeInTheDocument();
   });
